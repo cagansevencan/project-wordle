@@ -10,7 +10,7 @@ In Wordle, users have 6 attempts to guess a 5-letter word. You're helped along t
 
 ## Getting Started
 
-This project is created with create-react-app. It's intended to be run locally, on your computer, using Node.js and NPM.
+This project is created with [Parcel](https://parceljs.org/), a modern JS build tool. It's intended to be run locally, on your computer, using Node.js and NPM.
 
 If you're not sure how to run a local development server, or if you run into some trouble, check out the [“Local Development” instructions](https://courses.joshwcomeau.com/joy-of-react/project-wordle/03-dev-server). It includes all the info you need to know, including troubleshooting common issues.
 
@@ -50,7 +50,7 @@ Here's a quick screen recording of the expected result:
 **Acceptance Criteria:**
 
 - Create a new component.
-  - (Don't forget, you can use an NPM script to generate the scaffolding for you!)
+  - Don't forget, you can use an NPM script to generate the scaffolding for you! We learn how to do this in the [“Getting Started” video](https://courses.joshwcomeau.com/joy-of-react/project-wordle/04-overview)
 - This component should render a `<form>` tag, including a label and a text input.
 - The text input should be controlled by React state.
 - When the form is submitted:
@@ -97,30 +97,30 @@ As the user submits guesses, their guess will populate the cells:
 
 ![Screen recording showing each guess being added to the 5x6 grid](docs/words-in-cells.gif)
 
-We need to update our DOM structure for the `GuessResults` component so that it looks something like this:
+Here's the DOM structure you'll want to create dynamically, based on the user's guesses:
 
 ```html
 <div class="guess-results">
   <p class="guess">
-    <span class="cell">F</span>
-    <span class="cell">I</span>
-    <span class="cell">R</span>
-    <span class="cell">S</span>
-    <span class="cell">T</span>
-  </p>
-  <p class="guess">
-    <span class="cell">G</span>
-    <span class="cell">U</span>
+    <span class="cell">H</span>
     <span class="cell">E</span>
-    <span class="cell">S</span>
-    <span class="cell">S</span>
+    <span class="cell">L</span>
+    <span class="cell">L</span>
+    <span class="cell">O</span>
   </p>
   <p class="guess">
-    <span class="cell"></span>
-    <span class="cell"></span>
-    <span class="cell"></span>
-    <span class="cell"></span>
-    <span class="cell"></span>
+    <span class="cell">T</span>
+    <span class="cell">H</span>
+    <span class="cell">E</span>
+    <span class="cell">R</span>
+    <span class="cell">E</span>
+  </p>
+  <p class="guess">
+    <span class="cell">W</span>
+    <span class="cell">O</span>
+    <span class="cell">R</span>
+    <span class="cell">L</span>
+    <span class="cell">D</span>
   </p>
   <p class="guess">
     <span class="cell"></span>
