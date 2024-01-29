@@ -3,79 +3,72 @@ import { useState } from "react";
 import GuestList from "../GuestList/GuestList";
 import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 import { checkGuess } from "../../game-helpers";
+import WonBanner from "../WonBanner/WonBanner";
+import LostBanner from "../LostBanner/LostBanner";
+
 
 function Guess(answer) {
-  const [guess, setGuess] = useState("");
+  const [tentativeGuess, setTentativeGuess] = useState("");
   const [guesses, setGuesses] = useState([]);
-  const [amountOfGuesses, setAmountOfGuesses] = useState(0);
-  let winner = false;
-  const [gameStatus, setGameStatus] = useState(null); // null, 'won', or 'lost'
+  const [gameStatus, setGameStatus] = useState('running'); // null, 'won', or 'lost'
 
+  function handleSubmitGuess(tentativeGuess) {
+    if (tentativeGuess.length !== 5) {
+      window.alert("Please enter exactly 5 characters.💖 ")
+      return;
+    }
+
+    console.log({ tentativeGuess });
+
+
+    const tentativeGuessResult = checkGuess(tentativeGuess, answer.answer);
+    setTentativeGuess("");
+    const nextGuesses = [...guesses, tentativeGuessResult];
+    setGuesses(nextGuesses);
+
+    if (tentativeGuess === answer.answer) {
+      setGameStatus("won");
+    } else if (nextGuesses.length >= NUM_OF_GUESSES_ALLOWED) {
+      setGameStatus('lost');
+    }
+  }
 
   return (
-    <div>
+    <>
+      {gameStatus}
+      <div>
+        <form className="guess-input-wrapper" onSubmit={(event) => {
+          event.preventDefault();
+          handleSubmitGuess(tentativeGuess);
+        }}>
+          <label htmlFor="guess-input">
+            <div>
+              <div>Enter your guess:</div>
+              <input
+                required
+                disabled={gameStatus !== 'running'}
+                id="guess-input"
+                type="text"
+                value={tentativeGuess}
+                title="5 letter word"
+                pattern="[a-zA-Z]{5}"
+                minLength={5}
+                maxLength={5}
+                onChange={(event) => {
+                  setTentativeGuess((event.target.value).toUpperCase());
+                }} />
+            </div>
+          </label>
+        </form>
+        <GuestList guesses={guesses} />
+      </div>
       {gameStatus === 'won' && (
-        <div className="happy banner">
-          <p>
-            <strong>Congratulations!</strong> Got it in
-            <strong> {amountOfGuesses} guesses</strong>.
-          </p>
-        </div>
+        <WonBanner amountOfGuesses={guesses.length} />
       )}
-
       {gameStatus === 'lost' && (
-        <div className="sad banner">
-          <p>Sorry, the correct answer is <strong>{answer.answer.toUpperCase()}</strong>.</p>
-        </div>
+        <LostBanner answer={answer} />
       )}
-      {gameStatus !== 'won' && gameStatus !== 'lost' && (
-        <div>
-          <form className="guess-input-wrapper" onSubmit={(event) => {
-            event.preventDefault();
-            if (guess.length !== 5) {
-              window.alert("Please enter exactly 5 characters.")
-              return;
-            }
-
-
-            // if (amountOfGuesses >= NUM_OF_GUESSES_ALLOWED) {
-            //   window.alert(`You are allowed ${NUM_OF_GUESSES_ALLOWED} guesses total`);
-            //   return;
-            // }
-            console.log({ guess });
-
-            if (guess === answer.answer) {
-              setGameStatus("won");
-            } else if (amountOfGuesses + 1 === NUM_OF_GUESSES_ALLOWED) {
-              setGameStatus('lost');
-            }
-            const guessResult = checkGuess(guess, answer.answer);
-            setGuess("");
-            setGuesses(prevGuesses => [...prevGuesses, guessResult]);
-            setAmountOfGuesses(amountOfGuesses + 1);
-          }}>
-            <label htmlFor="guess-input">
-              <div>
-                <div>Enter your guess:</div>
-                <input
-                  required
-                  id="guess-input"
-                  type="text"
-                  value={guess}
-                  title="5 letter word"
-                  pattern="[a-zA-Z]{5}"
-                  minLength={5}
-                  maxLength={5}
-                  onChange={(event) => {
-                    setGuess((event.target.value).toUpperCase());
-                  }} />
-              </div>
-            </label>
-          </form>
-          <GuestList guesses={guesses} />
-        </div>
-      )}
-    </div>
+    </>
   );
 }
 
