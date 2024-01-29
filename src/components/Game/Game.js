@@ -13,7 +13,7 @@ function Game() {
   return (
     <>
       <div>
-        <Guess answer={answer} />
+        <Guess initialAnswer={answer} />
       </div>
     </>
   )

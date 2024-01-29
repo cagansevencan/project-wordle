@@ -1,8 +1,10 @@
 import React from 'react';
 import Banner from '../Banner/Banner';
 
-function WonBanner({ amountOfGuesses }) {
-  return <Banner status="happy">
+function WonBanner({ amountOfGuesses, handleRestart }) {
+  return <Banner status="happy"
+    action={handleRestart}
+    actionText={"Restart game"}>
     <p>
       <strong>Congratulations!</strong> Got it in
       <strong> {amountOfGuesses === 1
