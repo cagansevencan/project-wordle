@@ -38,6 +38,7 @@ function Guess({ initialAnswer, handleRestart }) {
 
   function handleRestart() {
     const newAnswer = sample(WORDS);
+    console.info({ newAnswer });
     setAnswer(newAnswer);
     setGuesses([]);
     setGameStatus('running');
